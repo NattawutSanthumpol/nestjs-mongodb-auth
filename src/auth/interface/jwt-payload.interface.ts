@@ -1,5 +1,5 @@
-import * as mongoose from "mongoose";
+import * as mongoose from 'mongoose';
 
-export interface IJwtPayload{
-    userId: mongoose.Types.ObjectId
+export interface IJwtPayload {
+  userId: mongoose.Types.ObjectId;
 }

@@ -11,6 +11,13 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { IJwtPayload } from './interface';
 
+export class loginResult {
+  name: string;
+  surname: string;
+  email: string;
+  token: string;
+}
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -42,7 +49,7 @@ export class AuthService {
     if (!comparePassword) throw new UnauthorizedException('Invalid Credential');
 
     // token creation
-    let userId = user._id;
+    const userId = user._id;
     const token = await this.createToken({ userId });
 
     // console.log('token : ', token);
@@ -58,7 +65,13 @@ export class AuthService {
       { upsert: true, new: true },
     );
 
-    return { token };
+    const result = new loginResult();
+    result.name = user.name;
+    result.surname = user.surname;
+    result.email = user.email;
+    result.token = token;
+
+    return result;
   }
 
   async register(dto: AuthDto) {

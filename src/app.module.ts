@@ -7,8 +7,13 @@ import { EmployeeModule } from './employee/employee.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb+srv://neslnwfaro003:fm1kMscf@cluster0.rl3tmhp.mongodb.net/Nest-API?retryWrites=true&w=majority'),
+    // MongooseModule.forRoot('mongodb+srv://neslnwfaro003:fm1kMscf@cluster0.rl3tmhp.mongodb.net/Nest-API?retryWrites=true&w=majority'),
     ConfigModule.forRoot({ isGlobal: true }),
+    MongooseModule.forRootAsync({
+      useFactory: () => ({
+        uri: process.env.MONGO_URI,
+      }),
+    }),
     AuthModule,
     EmployeeModule,
   ],
