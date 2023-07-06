@@ -74,6 +74,18 @@ export class AuthService {
     return result;
   }
 
+  async logout(userId: IJwtPayload) {
+    await this.tokenModel
+      .deleteOne({ userId: userId })
+      .then((req) => {
+        console.log(req);
+      })
+      .catch((err) => {
+        console.log(err);
+        throw new BadRequestException('Logout Failed !');
+      });
+  }
+
   async register(dto: AuthDto) {
     const hash = await this.hashData(dto.password);
     // console.log('dto : ', dto);
@@ -89,6 +101,7 @@ export class AuthService {
     });
 
     await newUser.save().catch((err) => {
+      console.log(err);
       throw new BadRequestException('Registration Failed !');
     });
 

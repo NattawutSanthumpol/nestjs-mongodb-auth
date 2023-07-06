@@ -25,6 +25,14 @@ export class AuthController {
   }
 
   @UseGuards(AuthGuard('jwt'))
+  @Get('logout')
+  async logout(@Request() req) {
+    const userId = req.user.userId;
+    console.log(userId);
+    return this.authService.logout(userId);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
   @Get('me')
   async userInfo(@Request() req) {
     const userId = req.user.userId;
